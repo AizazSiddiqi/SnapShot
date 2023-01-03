@@ -5,7 +5,14 @@ import Header from "./components/Header";
 import Item from "./components/Item";
 import Search from "./components/Search";
 import NotFound from "./components/NotFound";
+import eventLogging from "./eventLogging";
 
+// Log startup event
+eventLogging({
+  event_type: "startup"
+})
+
+// And here's our actual app code:
 class App extends Component {
   // Prevent page reload, clear input, set URL and push history on submit
   handleSubmit = (e, history, searchInput) => {
@@ -17,42 +24,42 @@ class App extends Component {
 
   render() {
     return (
-      <PhotoContextProvider>
-        <HashRouter basename="/SnapScout">
-          <div className="container">
-            <Route
-              render={props => (
-                <Header
-                  handleSubmit={this.handleSubmit}
-                  history={props.history}
+        <PhotoContextProvider>
+          <HashRouter basename="/SnapScout">
+            <div className="container">
+              <Route
+                  render={props => (
+                      <Header
+                          handleSubmit={this.handleSubmit}
+                          history={props.history}
+                      />
+                  )}
+              />
+              <Switch>
+                <Route
+                    exact
+                    path="/"
+                    render={() => <Redirect to="/mountain" />}
                 />
-              )}
-            />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => <Redirect to="/mountain" />}
-              />
 
-              <Route
-                path="/mountain"
-                render={() => <Item searchTerm="mountain" />}
-              />
-              <Route path="/beach" render={() => <Item searchTerm="beach" />} />
-              <Route path="/bird" render={() => <Item searchTerm="bird" />} />
-              <Route path="/food" render={() => <Item searchTerm="food" />} />
-              <Route
-                path="/search/:searchInput"
-                render={props => (
-                  <Search searchTerm={props.match.params.searchInput} />
-                )}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </HashRouter>
-      </PhotoContextProvider>
+                <Route
+                    path="/mountain"
+                    render={() => <Item searchTerm="mountain" />}
+                />
+                <Route path="/beach" render={() => <Item searchTerm="beach" />} />
+                <Route path="/bird" render={() => <Item searchTerm="bird" />} />
+                <Route path="/food" render={() => <Item searchTerm="food" />} />
+                <Route
+                    path="/search/:searchInput"
+                    render={props => (
+                        <Search searchTerm={props.match.params.searchInput} />
+                    )}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </HashRouter>
+        </PhotoContextProvider>
     );
   }
 }

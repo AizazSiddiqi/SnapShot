@@ -87,6 +87,10 @@ a {
   cursor: pointer;
 }
 
+.search-button {
+  background-color: #051c33;
+}
+
 .active {
   background-color: #051c33;
   cursor: pointer;
